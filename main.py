@@ -1,12 +1,19 @@
+from ipaddress import ip_address
+from time import sleep
 from flask import Flask, jsonify, request
+import os
 
 app = Flask(__name__)
 
 # In-memory array to store student data
 students = []
 
+# Get the port from the environment variable, default to 5000
+port = int(os.environ.get('FLASK_PORT', 5000))
+
 @app.route('/students', methods=['GET'])
 def get_students():
+    print("test")
     return jsonify({'students': students})
 
 @app.route('/students/<int:student_id>', methods=['GET'])
@@ -54,4 +61,4 @@ def delete_student(student_id):
     return jsonify({'message': 'Student deleted successfully'})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=port, host="0.0.0.0")
